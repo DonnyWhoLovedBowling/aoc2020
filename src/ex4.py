@@ -77,8 +77,12 @@ def is_passport_valid(passport):
     pid = passport[ix + 4:ix + 13]
     if not pid.isnumeric():
         return False
+    if(passport[ix + 13].isnumeric()):
+        print(passport)
+        print(passport[ix + 13])
+        return False
     cnt = passport.count(':')
-    if (cnt < 8 and 'cid' in passport) or (cnt < 7 and 'cid' not in passport ):
+    if cnt < 8 and 'cid' in passport:
         print('not enough properties')
         return False
     return True
@@ -88,11 +92,16 @@ file = open('../data/ex4.txt', 'r')
 lines = file.readlines()
 totalString = ''
 validPassports = 0
+npt = 0
 for line in lines:
     totalString += (' ' + line)
     if line == '\n' or line == lines[-1]:
+        npt += 1
+        if(npt == 124):
+            print(totalString)
         if is_passport_valid(totalString):
             validPassports += 1
+            print(str(npt) +  ' is valid')
             # print(totalString)
         totalString = ''
 
