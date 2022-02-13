@@ -7,20 +7,20 @@ containedDict = dict()
 search = 'shiny gold bag'
 total_sub_bags = 0
 
-def count_bags(bag, cnt):
+
+def count_bags(bag, parent_cnt):
     global containsDict
     global total_sub_bags
     sub_bags = containsDict[bag].keys()
     if len(sub_bags) == 0:
-        print('end of the line: ' + str(cnt) + ' ' +  bag )
-        total_sub_bags += cnt
+        print('end of the line: ' + str(parent_cnt) + ' ' + bag)
     for sub_bag in sub_bags:
         n = containsDict[bag][sub_bag]
-        path_cnt = n*cnt
+        path_cnt = n * parent_cnt
+        total_sub_bags += path_cnt
         print('adding ' + str(path_cnt) + '(' + str(n) + ') ' + sub_bag)
+        print('total is now: ' + str(total_sub_bags))
         count_bags(sub_bag, path_cnt)
-        print('count is now: ' + str(cnt))
-        total_sub_bags += cnt
 
 
 def in_tree(bag, initChain):
