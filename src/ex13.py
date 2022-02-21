@@ -51,6 +51,7 @@ def calc_result():
         for i in range(1, n_correct+2):
             times[i] = next_bus_stop(times[i-1], buses[i])
 
+
 print(prod(buses))
 
 best_bus = 999
