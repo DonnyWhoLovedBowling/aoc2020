@@ -18,7 +18,7 @@ for i, num_ans in enumerate(nums[25:]):
         break
 
 found = False
-for i in range(0,len(nums)):
+for i in range(0, len(nums)):
     num_list = []
     if found:
         break
