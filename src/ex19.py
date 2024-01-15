@@ -1,12 +1,40 @@
-from copy import deepcopy as dc
+from regex import  fullmatch
+from itertools import chain
+# mport (sys, os)
+#
+# sys.setrecursionlimit(10000)
+
+rule_dict = dict()
+all_rules = list()
+messages = list()
+
+
+def extend_rule(rule: list, pt2=False, depth=0):
+    if isinstance(rule, str):
+        return rule
+    # if isinstance(rule, int):
+    #     return extend_rule(rule)
+    if depth > 50:
+        return ''
+    new_rule = []
+    for sub_rule in rule:
+        new_sub_rule = ''
+        for sub_sub_rul in sub_rule:
+            # if sub_sub_rul == 8 and pt2:
+            #     new_sub_rule += f"({extend_rule(rule_dict[42], pt2)}){{1,2}}"
+            # elif sub_sub_rul == 31 and sub_rule == [42, 42, 31] and pt2 and depth < 100:
+            #     new_sub_rule += f"({extend_rule(rule_dict[sub_sub_rul], True, depth+1)})"
+            # else:
+            new_sub_rule += extend_rule(rule_dict[sub_sub_rul], pt2, depth+1)
+        new_rule.append(new_sub_rule)
+
+    return f"({'|'.join(new_rule)})"
 
 
 def main():
     with open('../data/ex19.txt') as f:
         lines = f.readlines()
-    rule_dict = dict()
-    all_rules = list()
-    messages = list()
+    global rule_dict, messages, all_rules
 
     lines = [line.replace('\n', '').strip() for line in lines]
     for line in lines:
@@ -37,62 +65,25 @@ def main():
 
     print(rule_dict[0])
     print(rule_dict[1])
-
-    all_rules.append(rule_dict[0][0])
-    new_all_rules = list()
-    print(all_rules)
-    cont = True
-    while cont:
-        if len(all_rules) % 10000 == 0:
-            print('iterating with ' + str(len(all_rules)) + ' rules: ')
-        cont = False
-        for i, rule in enumerate(all_rules):
-            if cont:
-                break
-            new_rule = dc(rule)
-            for j, rule_nr in enumerate(rule):
-                if cont:
-                    break
-                if isinstance(rule_nr, str):
-                    continue
-                rule_replacement = rule_dict[rule_nr]
-                if isinstance(rule_replacement, list):
-                    del all_rules[i]
-                    cont = True
-                    replacement = rule_dict[rule_nr]
-
-                    for rule_option in replacement:
-                        new_new_rule = dc(new_rule)
-                        del new_new_rule[j]
-                        for k, rule_option_nr in enumerate(rule_option):
-                            new_new_rule.insert(j+k,rule_option_nr)
-                        all_rules.append(new_new_rule)
-                elif isinstance(rule_replacement, str):
-                    new_rule[j] = rule_replacement
-                    all_rules[i] = new_rule
-                elif isinstance(rule_replacement, int):
-                    new_rule[j] = rule_replacement
-                    all_rules[i] = new_rule
-                else:
-                    print(' error: ' + rule_replacement)
-
-    all_rules_txt = list()
-    for rule in all_rules:
-        txt_rule = ''.join(rule)
-        print(txt_rule)
-        all_rules_txt.append(txt_rule)
-
+    regex_rule = extend_rule(rule_dict[0])
+    print(regex_rule)
     score = 0
-    for message in messages:
-        for rule in all_rules_txt:
-            if message.strip() == rule.strip():
-                print(message + " to rule " + rule)
-                score += 1
-                break
-    print(str(len(all_rules_txt)) + ' rules')
-    print(str(len(messages)) + ' messages')
-
+    for m in messages:
+        if fullmatch(regex_rule, m):
+            score += 1
     print('score = ' + str(score))
+    rule_dict[8] = [[42], [42, 8]]
+    rule_dict[11] = [[42, 31], [42, 11, 31]]
+    # 8: 42 | 42 42 | 42 42 | 42 42 | 42 8
+    # 11: 42 31 | 42 42 31 | 42 42 31 | 42 42 31 | 42 11 31 31 31 31
+    regex_rule = extend_rule(rule_dict[0], True)
+    print(regex_rule)
+    score = 0
+    for m in messages:
+        if fullmatch(regex_rule, m):
+            score += 1
+    print('score = ' + str(score))
+
 
 if __name__ == '__main__':
     main()
