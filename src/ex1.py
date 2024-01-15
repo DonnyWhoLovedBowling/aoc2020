@@ -4,19 +4,19 @@ nums = [int(x) for x in lines]
 
 stop = False
 for x in nums:
-    if(stop):
+    if stop:
         break
     for y in nums:
-        if(x == y):
+        if x == y:
             continue
-        if(stop):
+        if stop:
             break
         for z in nums:
-            
-            if(stop):
+
+            if stop:
                 break
-            if(z == y or z == x):
+            if z == y or z == x:
                 continue
-            if(x+y+z == 2020):
-                print(x*y*z)
+            if x + y + z == 2020:
+                print(x * y * z)
                 stop = True
