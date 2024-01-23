@@ -11,7 +11,8 @@ def in_range(_first, _last, _destination):
 def do_run(pt2, test):
     debug_freq = 100
     size = 9
-
+    largest = 0
+    n_rounds = 10
     if test:
         size = 50
         input = '389125467'
