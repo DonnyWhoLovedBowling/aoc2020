@@ -1,11 +1,11 @@
 from pycharm_line_profiler import profile
 
+
 def in_range(_first, _last, _destination):
     if _first < _last:
         return _first <= _destination < _last
     else:
         return _destination >= _first or _destination < _last
-
 
 
 def do_run(pt2, test):
@@ -50,6 +50,7 @@ def do_run(pt2, test):
             destination = largest
         else:
             destination = cups.index(destination_label)
+
         first = (current + 1) % len(cups)
         last = (current + 4) % len(cups)
         while in_range(first, last, destination):
@@ -110,6 +111,7 @@ def do_run(pt2, test):
 
         largest = largest % len(cups)
         current = (cups.index(current_label)+1) % len(cups)
+
         if (m % debug_freq) == 0:
             print(f"pickup: {pick_up}")
             print(f"current: {current}")
@@ -122,20 +124,14 @@ def do_run(pt2, test):
                 print(cups)
             print(f"round: {m} \n")
 
-
     pivot = cups.index(1)
     if pivot == len(cups)-1:
         final_cups = cups[:-1]
     else:
         final_cups = cups[pivot+1:] + cups[:pivot]
 
-    # print(currents)
-    # print(destinations)
-    # print(current_labels)
-    # print(destination_labels)
-    # print(firsts)
-    # print(lasts)
     print(final_cups)
+
 
 if __name__ == '__main__':
     do_run(False, True)
