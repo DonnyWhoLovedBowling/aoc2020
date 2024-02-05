@@ -1,6 +1,3 @@
-from copy import deepcopy as dc
-
-
 def add_tuples(t1, t2):
     return tuple(map(lambda i, j: i + j, t1, t2))
 
