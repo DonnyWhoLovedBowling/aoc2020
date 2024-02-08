@@ -60,7 +60,7 @@ def run(in_lines):
             removed += 1
         else:
             tiles.add(current)
-    print(f"ans = {len(tiles)}")
+    print(f"ans pt1 = {len(tiles)}")
 
     for i in range(100):
         whites = dict()
@@ -85,7 +85,7 @@ def run(in_lines):
         tiles = tiles.difference()
         tiles.difference_update(remove_tiles)
         tiles.update(add_tiles)
-        print(i, len(tiles))
+    print(f"ans pt2 = {len(tiles)}")
 
 
 if __name__ == '__main__':
